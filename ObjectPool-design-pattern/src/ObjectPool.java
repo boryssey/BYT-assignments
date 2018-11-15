@@ -1,0 +1,31 @@
+import java.util.HashSet;
+import java.util.Set;
+
+public abstract class ObjectPool<T> {
+
+	private Set<T> available = new HashSet<>();
+	private Set<T> inUse = new HashSet<>();
+
+	public abstract T create();
+
+	public synchronized T acquireReusable() {
+		if (available.isEmpty()) {
+			available.add(create());
+		}
+		T instance = available.iterator().next();
+		available.remove(instance);
+		inUse.add(instance);
+		return instance;
+
+	}
+
+	public synchronized void releaseReusable(T instance) {
+		inUse.remove(instance);
+		available.add(instance);
+	}
+
+	@Override
+	public synchronized String toString() {
+		return "Pool available=" + available.size() + " in use=" + inUse.size();
+	}
+}
