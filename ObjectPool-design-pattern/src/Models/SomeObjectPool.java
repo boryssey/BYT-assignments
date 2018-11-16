@@ -1,3 +1,5 @@
+package Models;
+import interfaces.ObjectPool;
 
 public class SomeObjectPool extends ObjectPool<SomeObject>{
 	private static SomeObjectPool instance;

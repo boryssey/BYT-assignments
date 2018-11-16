@@ -4,13 +4,17 @@ import interfaces.Mediator;
 import interfaces.Member;
 
 public class ChatMember extends Member {
+	public Message lastRecievedMessage;
 	public ChatMember(String name, Mediator m) {
 		super(name, m);
 	}
 
 	public void receive(Message msg) {
-		System.out.println(
-				chatUsername + " received message: '" + msg.messageText + "' from user: " + msg.sender.chatUsername);
+		lastRecievedMessage = msg;
 	}
-
+	
+	@Override
+	public String toString() {
+		return super.chatUsername;
+	}
 }
