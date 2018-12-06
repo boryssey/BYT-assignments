@@ -16,10 +16,10 @@ public class BankTest {
 		SweBank = new Bank("SweBank", SEK);
 		Nordea = new Bank("Nordea", SEK);
 		DanskeBank = new Bank("DanskeBank", DKK);
-		SweBank.openAccount("Ulrika");
-		SweBank.openAccount("Bob");
-		Nordea.openAccount("Bob");
-		DanskeBank.openAccount("Gertrud");
+		SweBank.openAccount("name2");
+		SweBank.openAccount("name1");
+		Nordea.openAccount("name1");
+		DanskeBank.openAccount("name3");
 	}
 	
 	/*
@@ -43,8 +43,8 @@ public class BankTest {
 	 */
 	@Test
 	public void testOpenAccount() throws AccountExistsException, AccountDoesNotExistException {
-		SweBank.openAccount("test1");
-		assertTrue(SweBank.existsAccount("test1"));
+		SweBank.openAccount("testAccount");
+		assertTrue(SweBank.existsAccount("testAccount"));
 	}
 
 	/*
@@ -52,8 +52,8 @@ public class BankTest {
 	 */
 	@Test
 	public void testDeposit() throws AccountDoesNotExistException {
-		SweBank.deposit("Bob", new Money(1000, SEK));
-		assertEquals(1000, SweBank.getBalance("Bob"), 0);
+		SweBank.deposit("name1", new Money(1000, SEK));
+		assertEquals(1000, SweBank.getBalance("name1"), 0);
 	}
 
 	/*
@@ -61,8 +61,8 @@ public class BankTest {
 	 */
 	@Test
 	public void testWithdraw() throws AccountDoesNotExistException {
-		SweBank.withdraw("Bob", new Money(1000, SEK));
-		assertEquals(-1000, SweBank.getBalance("Bob"), 0);
+		SweBank.withdraw("name1", new Money(1000, SEK));
+		assertEquals(-1000, SweBank.getBalance("name1"), 0);
 	}
 	
 	/*
@@ -70,34 +70,39 @@ public class BankTest {
 	 */
 	@Test
 	public void testGetBalance() throws AccountDoesNotExistException {
-		assertEquals(0, SweBank.getBalance("Bob"), 0);
+		assertEquals(0, SweBank.getBalance("name1"), 0);
 	}
 	/*
 	 * testing transfer() method inside same bank and with other bank
+	 * testing inside bank and between banks
 	 */
 	@Test
 	public void testTransfer() throws AccountDoesNotExistException {
-		SweBank.deposit("Bob", new Money(1000, SEK));
-		SweBank.transfer("Bob", "Ulrika", new Money(500, SEK));		// transfer inside same bank
-		assertEquals(500, SweBank.getBalance("Bob"), 0);
-		assertEquals(500, SweBank.getBalance("Ulrika"), 0);
+		//inside one bank
+		SweBank.deposit("name1", new Money(1000, SEK));
+		SweBank.transfer("name1", "name2", new Money(500, SEK));		
+		assertEquals(500, SweBank.getBalance("name1"), 0);
+		assertEquals(500, SweBank.getBalance("name2"), 0);
 		
-		SweBank.transfer("Bob", DanskeBank, "Gertrud", new Money(500, SEK));		// transfer between banks
-		assertEquals(0, SweBank.getBalance("Bob"), 0);
-		assertEquals((int)(500 * 0.15 / 0.20), DanskeBank.getBalance("Gertrud"), 0);
+		//between banks
+		SweBank.transfer("name1", DanskeBank, "name3", new Money(500, SEK));	
+		assertEquals(0, SweBank.getBalance("name1"), 0);
+		assertEquals((int)(500 * 0.15 / 0.20), DanskeBank.getBalance("name3"), 0);
 	}
 	
 	/*
 	 * testing addTimedPayment() method
+	 * add timed payment
+	 * tick for payment to go through
 	 */
 	@Test
 	public void testTimedPayment() throws AccountDoesNotExistException {
-		SweBank.deposit("Bob", new Money(1000, SEK));
-		SweBank.addTimedPayment("Bob", "1", 2, 0, new Money(1000, SEK), SweBank, "Ulrika"); 	// Adding TimedPayment
-		SweBank.tick();																			// Ticking to proceed payment
+		SweBank.deposit("name1", new Money(1000, SEK));
+		SweBank.addTimedPayment("name1", "1", 2, 0, new Money(1000, SEK), SweBank, "name2"); 	
+		SweBank.tick();																			
 		
-		assertEquals(0, SweBank.getBalance("Bob"), 0);
-		assertEquals(1000, SweBank.getBalance("Ulrika"), 0);
+		assertEquals(0, SweBank.getBalance("name1"), 0);
+		assertEquals(1000, SweBank.getBalance("name2"), 0);
 		
 		
 	}

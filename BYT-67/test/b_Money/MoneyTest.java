@@ -14,13 +14,13 @@ public class MoneyTest {
 		SEK = new Currency("SEK", 0.15);
 		DKK = new Currency("DKK", 0.20);
 		EUR = new Currency("EUR", 1.5);
-		SEK100 = new Money(10000, SEK);
-		EUR10 = new Money(1000, EUR);
-		SEK200 = new Money(20000, SEK);
-		EUR20 = new Money(2000, EUR);
+		SEK100 = new Money(100, SEK);
+		EUR10 = new Money(10, EUR);
+		SEK200 = new Money(200, SEK);
+		EUR20 = new Money(20, EUR);
 		SEK0 = new Money(0, SEK);
 		EUR0 = new Money(0, EUR);
-		SEKn100 = new Money(-10000, SEK);
+		SEKn100 = new Money(-100, SEK);
 	}
 
 	/*
@@ -28,7 +28,7 @@ public class MoneyTest {
 	 */
 	@Test
 	public void testGetAmount() {
-		assertEquals(2000, EUR20.getAmount(), 0);
+		assertEquals(20, EUR20.getAmount(), 0);
 	}
 
 	/*
@@ -45,14 +45,14 @@ public class MoneyTest {
 	@Test
 	public void testGlobalValue() {
 		
-		assertEquals((int)(10000 * 0.15), SEK100.universalValue(), 0);
+		assertEquals((int)(100 * 0.15), SEK100.universalValue(), 0);
 	}
 	/*
 	 * resting equals() method
 	 */
 	@Test
 	public void testEqualsMoney() {
-		Money SEKS = new Money(10000, SEK);
+		Money SEKS = new Money(100, SEK);
 		assertTrue(SEKS.equals(SEK100));
 		
 	}
@@ -62,8 +62,7 @@ public class MoneyTest {
 	@Test
 	public void testAdd() {
 		Money added = EUR10.add(SEK100);
-		int sum = (int)((1000) + (10000 * 0.15 / 1.5));
-		assertEquals(sum, added.getAmount(), 0);
+		assertEquals(20, added.getAmount(), 0);
 	}
 	/*
 	 * testing sub(Money) method
@@ -71,7 +70,7 @@ public class MoneyTest {
 	@Test
 	public void testSub() {
 		Money subbed = SEK200.sub(SEK100);
-		int res = (int) (20000 - 10000 * 0.15 / 0.15);
+		int res = (int) (200 - 100 * 0.15 / 0.15);
 		assertEquals(res, subbed.getAmount(), 0);
 	}
 	/*
@@ -86,7 +85,7 @@ public class MoneyTest {
 	 */
 	@Test
 	public void testNegate() {
-		assertEquals(-1000, EUR10.negate().getAmount(), 0);
+		assertEquals(-10, EUR10.negate().getAmount(), 0);
 	}
 	/*
 	 * testing compareTo(Object) method of Money object

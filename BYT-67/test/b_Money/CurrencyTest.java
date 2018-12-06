@@ -15,6 +15,7 @@ public class CurrencyTest {
 		SEK = new Currency("SEK", 0.15);
 		DKK = new Currency("DKK", 0.20);
 		EUR = new Currency("EUR", 1.5);
+		NOK = new Currency("NOK", 1.0);
 	}
 
 	/*
@@ -22,9 +23,10 @@ public class CurrencyTest {
 	 */
 	@Test
 	public void testGetName() {
-		assertEquals("SEK", SEK.getName());
-		assertEquals("DKK", DKK.getName());
 		assertEquals("EUR", EUR.getName());
+		assertEquals("DKK", DKK.getName());
+		assertEquals("NOK", NOK.getName());
+		assertEquals("SEK", SEK.getName());
 	}
 	/*
 	 * Testing getRate() method
@@ -34,6 +36,8 @@ public class CurrencyTest {
 		assertEquals(0.15, SEK.getRate(), 0);
 		assertEquals(0.20, DKK.getRate(), 0);
 		assertEquals(1.5, EUR.getRate(), 0);
+		assertEquals(1.0, NOK.getRate(), 0);
+
 	}
 	/*
 	 * Testing setRate() method
@@ -42,6 +46,12 @@ public class CurrencyTest {
 	public void testSetRate() {
 		SEK.setRate(0.1);
 		assertEquals(0.1, SEK.getRate(), 0);
+		NOK.setRate(1.1);
+		assertEquals(1.1, NOK.getRate(), 0);
+		EUR.setRate(0.5);
+		assertEquals(0.5, EUR.getRate(), 0);
+		NOK.setRate(0.2);
+		assertEquals(0.2, NOK.getRate(), 0);
 	}
 	/*
 	 *  Testing universalValue() method

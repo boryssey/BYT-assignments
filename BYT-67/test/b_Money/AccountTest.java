@@ -19,11 +19,11 @@ public class AccountTest {
 	public void setUp() throws Exception {
 		SEK = new Currency("SEK", 0.15);
 		SweBank = new Bank("SweBank", SEK);
-		SweBank.openAccount("Alice");
+		SweBank.openAccount("Andrew");
 		testAccount = new Account("Hans", SEK);
 		testAccount.deposit(new Money(10000000, SEK));
 
-		SweBank.deposit("Alice", new Money(1000000, SEK));
+		SweBank.deposit("Andrew", new Money(1000000, SEK));
 		
 	}
 	/*
@@ -31,7 +31,7 @@ public class AccountTest {
 	 */
 	@Test
 	public void testAddRemoveTimedPayment() {
-		testAccount.addTimedPayment("1", 5, 10, new Money(1000, SEK), SweBank, "Alice");
+		testAccount.addTimedPayment("1", 5, 10, new Money(500, SEK), SweBank, "Anna");
 		assertTrue(testAccount.timedPaymentExists("1"));
 		testAccount.removeTimedPayment("1");
 		assertFalse(testAccount.timedPaymentExists("1"));
@@ -41,13 +41,12 @@ public class AccountTest {
 	 */
 	@Test
 	public void testTimedPayment() throws AccountDoesNotExistException {
-		testAccount.addTimedPayment("1", 2, 2, new Money(1000, SEK), SweBank, "Alice"); 
-		System.out.println(testAccount.getBalance().getAmount());
+		testAccount.addTimedPayment("1", 2, 1, new Money(1000, SEK), SweBank, "Andrew"); 
 		testAccount.tick();
 		testAccount.tick();
 		testAccount.tick();
 		
-		assertEquals(new Integer(10000000 - 1000), testAccount.getBalance().getAmount(), 0);
+		assertEquals(new Integer(10000000 - 1000), testAccount.getBalance().getAmount());
 	}
 
 	/*
