@@ -6,45 +6,65 @@ public class Configuration {
 	public int duration;
 
 	public int departure;
-
-	public void load(Properties props) throws ConfigurationException {
-		String valueString;
+	
+	/*
+	 * the load method made to much work and was too long, split it into 3 different methods
+	 */
+	public int checkInterval(Properties props) throws ConfigurationException {
+		String valueString = props.getProperty("interval");;
 		int value;
-
-		valueString = props.getProperty("interval");
+		
 		if (valueString == null) {
-			throw new ConfigurationException("monitor interval");
+			throw new ConfigurationException("interval");
 		}
 		value = Integer.parseInt(valueString);
 		if (value <= 0) {
-			throw new ConfigurationException("monitor interval > 0");
-		}
-		interval = value;
-
-		valueString = props.getProperty("duration");
+			throw new ConfigurationException("interval <= 0");
+		} 
+		
+		return value;
+	}
+	
+	public int checkDuration(Properties props) throws ConfigurationException {
+		String valueString = props.getProperty("duration");;
+		int value;
+		
 		if (valueString == null) {
 			throw new ConfigurationException("duration");
 		}
 		value = Integer.parseInt(valueString);
 		if (value <= 0) {
-			throw new ConfigurationException("duration > 0");
-		}
-		if ((value % interval) != 0) {
+			throw new ConfigurationException("duration <= 0");
+		} else if ((value % interval) != 0) {
 			throw new ConfigurationException("duration % interval");
 		}
-		duration = value;
+		
+		return value;
+	}
 
-		valueString = props.getProperty("departure");
+	public int checkDeparture(Properties props) throws ConfigurationException {
+		String valueString = props.getProperty("departure");;
+		int value;
+		
 		if (valueString == null) {
-			throw new ConfigurationException("departure offset");
+			throw new ConfigurationException("departure");
 		}
 		value = Integer.parseInt(valueString);
 		if (value <= 0) {
-			throw new ConfigurationException("departure > 0");
-		}
-		if ((value % interval) != 0) {
+			throw new ConfigurationException("departure <= 0");
+		} else if ((value % interval) != 0) {
 			throw new ConfigurationException("departure % interval");
 		}
-		departure = value;
+		
+		return value;
+	}
+	
+	public void load(Properties props) throws ConfigurationException {
+		
+		interval = checkInterval(props);
+
+		duration = checkDuration(props);
+
+		departure = checkDeparture(props);
 	}
 }

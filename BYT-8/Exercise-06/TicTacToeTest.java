@@ -47,7 +47,7 @@ public class TicTacToeTest {
 		assertWinner("---------", '-');
 		assertWinner("XXOOOXXOO", '-');
 	}
-	@Test
+
 	private void assertWinner(String s, char w) {
 		TicTacToe game = new TicTacToe(s);
 		Assert.assertEquals(w, game.winner());		

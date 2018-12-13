@@ -1,6 +1,9 @@
 public class TicTacToe {
 	public StringBuffer board;
-
+	/*
+	 * split winner() method into 3 method, because it was too big.
+	 * added brackets in if statements where needed.
+	 */
 	public TicTacToe(String s) {
 		board = new StringBuffer(s);
 	}
@@ -31,32 +34,52 @@ public class TicTacToe {
 		return new TicTacToe(board.toString(), i, player);
 	}
 
-	public char winner() {
-		// check for horizontal winner
+	public char checkHorizontalWinner() {
 		for (int i = 0; i < 9; i += 3) {
-			if (board.charAt(i) != '-'
-					&& board.charAt(i + 1) == board.charAt(i)
-					&& board.charAt(i + 2) == board.charAt(i))
+			if (board.charAt(i) != '-' && board.charAt(i + 1) == board.charAt(i)
+					&& board.charAt(i + 2) == board.charAt(i)) {
 				return board.charAt(i);
+			}
 		}
+		return '-';
+	}
 
-		// check for vertical winner
+	public char checkVerticalWinner() {
 		for (int i = 0; i < 3; ++i) {
-			if (board.charAt(i) != '-'
-					&& board.charAt(i + 3) == board.charAt(i)
-					&& board.charAt(i + 6) == board.charAt(i))
+			if (board.charAt(i) != '-' && board.charAt(i + 3) == board.charAt(i)
+					&& board.charAt(i + 6) == board.charAt(i)) {
 				return board.charAt(i);
+			}
+		}
+		return '-';
+	}
+
+	public char checkDiagonalWinner() {
+		if (board.charAt(0) != '-' && board.charAt(4) == board.charAt(0) && board.charAt(8) == board.charAt(0)) {
+			return board.charAt(0);
+		}
+		if (board.charAt(2) != '-' && board.charAt(4) == board.charAt(2) && board.charAt(6) == board.charAt(2)) {
+			return board.charAt(2);
+		}
+		return '-';
+	}
+
+	public char winner() {
+		char horizontalWinner = checkHorizontalWinner();
+		if(horizontalWinner != '-') {
+			return horizontalWinner;
+		}
+		
+		char verticalWinner = checkVerticalWinner();
+		if(verticalWinner != '-') {
+			return verticalWinner;
+		}
+		
+		char diagonalWinner = checkDiagonalWinner();
+		if(diagonalWinner != '-') {
+			return diagonalWinner;
 		}
 
-		// check for diagonal winner
-		if (board.charAt(0) != '-' && board.charAt(4) == board.charAt(0)
-				&& board.charAt(8) == board.charAt(0))
-			return board.charAt(0);
-		if (board.charAt(2) != '-' && board.charAt(4) == board.charAt(2)
-				&& board.charAt(6) == board.charAt(2))
-			return board.charAt(2);
-
-		// no winner yet
 		return '-';
 	}
 }

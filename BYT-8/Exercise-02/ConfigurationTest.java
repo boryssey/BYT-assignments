@@ -40,8 +40,8 @@ public class ConfigurationTest{
 	public void testInvalidDeparture() throws IOException {
 		processBadInput("interval = 10\nduration = 100\ndeparture = 199\n");
 	}
-	@Test
-	private void processBadInput(String data) throws IOException {
+	
+	public void processBadInput(String data) throws IOException {
 		Properties input = loadInput(data);
 
 		boolean failed = false;
@@ -54,8 +54,8 @@ public class ConfigurationTest{
 
 		Assert.assertTrue(failed);
 	}
-	@Test
-	private Properties loadInput(String data) throws IOException {
+	
+	public Properties loadInput(String data) throws IOException {
 		InputStream is = new StringBufferInputStream(data);
 
 		Properties input = new Properties();
